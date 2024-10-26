@@ -1,6 +1,6 @@
 // Post wrapper
-.wrapper.post {
-  @include media-query($on-mobile) {
+.wrapper, #post {
+  @media #{$mobile} {
     padding-left: $spacing-half;
     padding-right: $spacing-half;
   }
@@ -8,22 +8,8 @@
 
 // Post title
 .header {
-  margin-top: 7.8em;
-  margin-bottom: 3em;
-
-  .tags {
-    margin-left: 3px;
-    letter-spacing: 0.5px;
-
-    .tag {
-      font-weight: $bold-weight;
-      font-size: $small-font-size - 2;
-
-      &:hover {
-        text-decoration: none;
-      }
-    }
-  }
+  /* margin-top: 7.8em;
+  margin-bottom: 3em; */
 
   .header-title {
     font-size: 2em;
@@ -35,7 +21,7 @@
       text-align: center;
     }
 
-    @include media-query($on-mobile) {
+    @media #{$mobile} {
       font-size: 1.9em;
     }
   }
@@ -69,8 +55,6 @@
 
 // Post content
 .page-content {
-  padding-top: 8px;
-
   iframe {
     text-align: center;
   }
@@ -90,6 +74,7 @@
   a {
     color: $text-link-blue;
     text-decoration: none;
+
     &[target="_blank"]::after {
       content: " \2197";
       font-size: $small-font-size;
@@ -108,14 +93,14 @@
     }
   }
 
-  > p {
+  >p {
     margin: 0;
     padding-top: $spacing-full - 15;
     padding-bottom: $spacing-full - 15;
   }
 
   ul.task-list {
-    list-style: none; 
+    list-style: none;
     margin: 0;
 
     li::before {
@@ -191,6 +176,54 @@
   }
 }
 
+// Categories
+.categories {
+  letter-spacing: 0.5px;
+
+  .category {
+    font-weight: $bold-weight;
+    font-size: $small-font-size - 2;
+    color: $gray;
+    
+    &:hover {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+}
+
+#post-category {
+  visibility: hidden;
+  letter-spacing: 0.5px;
+
+  @media #{$mobile} {
+    visibility: visible;
+    font-weight: $bold-weight;
+    font-size: $small-font-size - 2;
+
+    a {
+      color: $gray;
+      text-decoration: none;
+    }
+  }
+}
+
+// Tags
+.tags {
+  //margin-left: 3px;
+  letter-spacing: 0.5px;
+
+  .tag {
+    font-weight: $bold-weight;
+    font-size: $small-font-size - 2;
+    color: $primary-color;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
 .post-nav {
   display: flex;
   position: relative;
@@ -198,54 +231,65 @@
   border-top: 1px solid $light;
   line-height: 1.4;
 
-  .post-nav-item {
-    border-bottom: 0;
-    font-weight: $bold-weight;
-    padding-bottom: 10px;
+  img {
+    display: none;
+  }
 
-    .post-title {
-      color: $black;
-    }
-
-    &:hover,
-    &:focus {
-      .post-title {
-        color: $text-link-blue-active;
-        opacity: 0.9;
-      }
-    }
-
-    .nav-arrow {
-      font-weight: $normal-weight;
-      font-size: $small-font-size;
-      color: $gray;
-      margin-bottom: 3px;
-    }
-
-    width: 50%;
-    padding-top: 10px;
+  a {
     text-decoration: none;
     box-sizing: border-box;
+    border-bottom: 0;
 
-    &:nth-child(odd) {
-      padding-left: 0;
-      padding-right: 20px;
-    }
+    .post-nav-item {
+      font-weight: $bold-weight;
+      
+      /*
+      &:nth-child(odd) {
+        padding-left: 0;
+        padding-right: 20px;
+      }
 
-    &:nth-child(even) {
-      text-align: right;
-      padding-right: 0;
-      padding-left: 20px;
+      &:nth-child(even) {
+        text-align: right;
+        padding-right: 0;
+        padding-left: 20px;
+      }
+      */
+
+      .post-title {
+        color: $black;
+      }
+  
+      &:hover,
+      &:focus {
+        .post-title {
+          color: $text-link-blue-active;
+          opacity: 0.9;
+        }
+      }
+
+      .nav-arrow {
+        font-weight: $normal-weight;
+        font-size: $small-font-size;
+        color: $gray;
+        margin-bottom: 3px;
+      }
     }
   }
 
-  @include media-query($on-mobile) {
-    display: block;
+  @media #{$mobile} {
+    display: flex;
     font-size: $small-font-size;
+
+    img {
+      width: 28px;
+      height: 28px;
+      display: inline;
+    }
 
     .post-nav-item {
       display: block;
-      width: 100%;
+      //width: 100%
     }
 
     .post-nav-item:nth-child(even) {
@@ -253,9 +297,67 @@
       padding-left: 0;
       border-top: 1px solid $light;
     }
+
+    .post-title {
+      display: none;
+    }
+  }
+}
+
+.related-posts {
+  width: fit-content;
+}
+
+@media #{$mobile} {
+  .related-posts {
+    width: 100%;
+
+    .stuff {
+      width: auto !important;
+    }
+  }
+
+  .navbar {
+    .menu {
+      #category {
+        display: none
+      }
+    }
   }
 }
 
 .post-updated-at {
   font-family: "Ubuntu mono", "monospace";
+}
+
+#navpost {
+  transition: bottom 0.5s;
+
+  .post-nav {
+    margin-top: 0rem;
+  }
+}
+
+#navpost .post-nav {
+  background-color: $light;
+}
+
+body[data-theme="dark"] #navpost .post-nav {
+  background-color: $dark-black;
+}
+
+.button-close {
+  width: 28px;
+  height: 28px;
+  background-color: #6b788650;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  flex: 0 0 auto;
+  opacity: .7;
+
+  &:hover {
+    background-color: #ececec50;
+  }
 }
